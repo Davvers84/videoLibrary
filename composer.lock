@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b419ecdf994c7e8f6ebd09b40c6dca17",
-    "content-hash": "d89f3a9770235b8df49806102b4fffec",
+    "hash": "55b3106e13659ccd3c4402dfce8a9d30",
+    "content-hash": "b439a007365e0e4e672b226460ad57c2",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -73,6 +73,60 @@
                 "string"
             ],
             "time": "2018-01-09 20:05:19"
+        },
+        {
+            "name": "eftec/bladeone",
+            "version": "3.16",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EFTEC/BladeOne.git",
+                "reference": "9163ce9617f90fcfd17ea522a4e7093ee11e4363"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EFTEC/BladeOne/zipball/9163ce9617f90fcfd17ea522a4e7093ee11e4363",
+                "reference": "9163ce9617f90fcfd17ea522a4e7093ee11e4363",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.13-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "eftec\\bladeone\\": "lib/",
+                    "eftec\\tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jorge Patricio Castro Castillo",
+                    "email": "jcastro@eftec.cl"
+                }
+            ],
+            "description": "The standalone version Blade Template Engine from Laravel in a single php file",
+            "homepage": "https://github.com/EFTEC/BladeOne",
+            "keywords": [
+                "blade",
+                "php",
+                "template",
+                "templating",
+                "view"
+            ],
+            "time": "2018-10-25 10:45:03"
         },
         {
             "name": "illuminate/container",
@@ -1977,6 +2031,8 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-json": "^1.6"
+    },
     "platform-dev": []
 }
