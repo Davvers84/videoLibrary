@@ -6,5 +6,8 @@
  * Time: 15:34
  */
 require __DIR__ . '/vendor/autoload.php';
+define('ROOTPATH', __DIR__);
 
-echo 'test';
+use Vibrary\Controllers\RouteController;
+
+$route = new RouteController();
