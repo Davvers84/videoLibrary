@@ -5,8 +5,14 @@
  * Date: 01/11/18
  * Time: 11:02
  */
+
 require __DIR__ . '/vendor/autoload.php';
+
 use Illuminate\Database\Capsule\Manager as Capsule;
+
+// Load Environment Vars
+$dotenv = new Dotenv\Dotenv(__DIR__);
+$dotenv->load();
 
 $capsule = new Capsule;
 $capsule->addConnection([

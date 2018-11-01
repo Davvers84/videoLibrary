@@ -2,5 +2,4 @@
 .idea/*
 vendor/*
 resources/cache/*
-database/*
 node_modules/*
