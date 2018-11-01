@@ -15,6 +15,8 @@ class RouteController {
     private $payloadIndex = 3;
 
     public $controller;
+    public $view;
+    public $data;
 
     function __construct() {
         $this->route = $_SERVER['REQUEST_URI'];
@@ -37,30 +39,34 @@ class RouteController {
     function route() {
         $controllerName = ucfirst($this->requestController) . 'Controller';
         $controller = '\\Vibrary\\Controllers\\' . $controllerName;
-        $method = $this->requestMethod;
 
-        if(file_exists( ROOTPATH . '/src/Controllers/' . $controllerName . '.php')) {
+        if($controllerExists = file_exists( ROOTPATH . '/src/Controllers/' . $controllerName . '.php')) {
             $this->controller = new $controller;
         } else {
             echo '404';
             // @todo call error blade with 404 not found
             return;
         }
-        if(method_exists($this->controller, $method)) {
-            $this->controller->$method($this->requestPayload);
+
+        $method = $this->requestMethod;
+        if($methodExists = method_exists($this->controller, $method)) {
+            $viewData = $this->controller->$method($this->requestPayload);
+            $this->view = $viewData['view'];
+            $this->data = $viewData['data'];
         } else {
             echo '422';
             /* @todo call error blade with 422 not found
-            * The 422 (Unprocessable Entity) status code means the server
-            * understands the content type of the request entity (hence a
-            * 415(Unsupported Media Type) status code is inappropriate), and the
-            * syntax of the request entity is correct (thus a 400 (Bad Request)
-            * status code is inappropriate) but was unable to process the contained
-            * instructions.  For example, this error condition may occur if an XML
-            * request body contains well-formed (i.e., syntactically correct), but
-            *semantically erroneous, XML instructions.
-            */
+             * The 422 (Unprocessable Entity) status code means the server
+             * understands the content type of the request entity (hence a
+             * 415(Unsupported Media Type) status code is inappropriate), and the
+             * syntax of the request entity is correct (thus a 400 (Bad Request)
+             * status code is inappropriate) but was unable to process the contained
+             * instructions.  For example, this error condition may occur if an XML
+             * request body contains well-formed (i.e., syntactically correct), but
+             *semantically erroneous, XML instructions.
+             */
             return;
         }
+
     }
 }

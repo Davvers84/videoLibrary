@@ -1,14 +1,14 @@
 <?php
 namespace Vibrary\Controllers;
 
-class HomeController {
+class HomeController extends Controller {
 
     function __construct() {
-
+        parent::__construct();
     }
 
     function index() {
-        echo 'this is home';
+        return $this->view("home", array("variable1"=>"value1"));
     }
 
 }
