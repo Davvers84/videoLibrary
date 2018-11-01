@@ -1,6 +1,8 @@
 <?php
 namespace Vibrary\Controllers;
 
+use Vibrary\Services\VideosService;
+
 class VideosController extends Controller {
 
     function __construct() {
@@ -8,6 +10,7 @@ class VideosController extends Controller {
     }
 
     function search() {
+        $service = new VideosService();
         return $this->view("videos");
     }
 
