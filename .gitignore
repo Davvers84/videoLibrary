@@ -1,2 +1,5 @@
+.env
 .idea/*
 vendor/*
+resources/cache/*
+node_modules/*
