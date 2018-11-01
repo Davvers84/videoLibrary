@@ -12,20 +12,32 @@ class UserService
         $this->userRepository = $userRepository;
     }
 
-    public function createUser(ProviderUser $providerUser, $provider)
-    {
+//    public function all() {
+//        return $this->userRepository->all();
+//    }
 
-        $user = $this->userRepository->getUserByEmail($providerUser->getEmail());
-
-        if (!$user) {
-            $user = $this->userRepository->createFromProvider(
-                $providerUser->getEmail(),
-                $providerUser->getName()
-            );
-        }
-
-        $this->userRepository->createUserAccount($user, $providerUser->getId(), $provider);
-
-        return $user;
+    public function getUserByEmail($email) {
+        return $this->userRepository->getUserByEmail($email);
     }
+
+    public function findByNameOrEmail($search) {
+        return $this->userRepository->findByNameOrEmail($search);
+    }
+
+//    public function createUser(ProviderUser $providerUser, $provider) {
+//
+//        $user = $this->userRepository->getUserByEmail($providerUser->getEmail());
+//
+//        if (!$user) {
+//            $user = $this->userRepository->createFromProvider(
+//                $providerUser->getEmail(),
+//                $providerUser->getName()
+//            );
+//        }
+//
+//        $this->userRepository->createUserAccount($user, $providerUser->getId(), $provider);
+//
+//        return $user;
+//    }
+
 }

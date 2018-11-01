@@ -2,6 +2,8 @@
 
 namespace Vibrary\Models;
 
+require ROOTPATH . '/bootstrap.php';
+
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class User extends Eloquent
@@ -25,10 +27,10 @@ class User extends Eloquent
         'password', 'remember_token',
     ];
 
-    public function videos()
-    {
-        return $this->hasMany('Videos');
-    }
+//    public function videos()
+//    {
+//        return $this->hasMany('Videos');
+//    }
 
 
 }
