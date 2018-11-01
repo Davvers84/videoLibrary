@@ -6,4 +6,4 @@
  * Time: 15:56
  */
 
-// @todo will add all the Controllers, that RouteController should have access to
+use Vibrary\Controllers\HomeController;
