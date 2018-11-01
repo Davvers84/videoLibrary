@@ -12,7 +12,6 @@ if($argv[1] == "migrate") {
 }
 $databaseMigrations = array(
     "create_users_table"
-    , "linked_social_accounts_table"
 );
 
 foreach($databaseMigrations as $migration) {

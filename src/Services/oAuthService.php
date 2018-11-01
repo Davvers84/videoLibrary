@@ -1,18 +1,43 @@
 <?php
 namespace Vibrary\Services;
 
+require ROOTPATH . '/vendor/autoload.php';
+
+use League\OAuth2\Client\Provider\Google;
+use Vibrary\Models\User;
+use Vibrary\Repositories\User\UserRepository;
+
+
 class oAuthService {
 
+    protected $userService;
+
     function __construct() {
+        // @todo replace with true dependancy injection
+        $userModel = new User();
+        $userRepo = new UserRepository($userModel);
+        $this->userService = new UserService($userRepo);
+    }
+
+    function callback($response) {
+
+        echo $response;
+
+        //echo $_SESSION['oauth2state'];
 
     }
 
-    function authUser() {
-        $provider = new League\OAuth2\Client\Provider\Google([
+    function redirect() {
+
+
+//        $_GET['code'] = '4/iACAG4JszjujAxTm_nR4SE1S4MFOX45fo9uN7TjONLxk9Gqq0h2MlMd_XpD1azkOn019bZ27MA98mKldxtpASOU';
+//        $_GET['state'] = '0316ac74b5c172f0330e40d35c9df575';
+
+        $provider = new \League\OAuth2\Client\Provider\Google([
             'clientId'     => getenv('GOOGLE_CLIENT_ID'),
             'clientSecret' => getenv('GOOGLE_CLIENT_SECRET'),
             'redirectUri'  => getenv('GOOGLE_REDIRECT'),
-            'hostedDomain' => 'example.com', // optional; used to restrict access to users on your G Suite/Google Apps for Business accounts
+            'hostedDomain' => 'enta.net', // optional; used to restrict access to users on your G Suite/Google Apps for Business accounts
         ]);
 
         if (!empty($_GET['error'])) {
@@ -41,32 +66,16 @@ class oAuthService {
                 'code' => $_GET['code']
             ]);
 
-            // Optional: Now you have a token you can look up a users profile data
-            try {
 
-                // We got an access token, let's now get the owner details
-                $ownerDetails = $provider->getResourceOwner($token);
+//            // Use this to interact with an API on the users behalf
+//            echo $token->getToken();
+//
+//            // Use this to get a new access token if the old one expires
+//            echo $token->getRefreshToken();
+//
+//            // Number of seconds until the access token will expire, and need refreshing
+//            echo $token->getExpires();
 
-                // Use these details to create a new profile
-                printf('Hello %s!', $ownerDetails->getFirstName());
-
-            } catch (Exception $e) {
-
-                // Failed to get user details
-                exit('Something went wrong: ' . $e->getMessage());
-
-            }
-
-            // Use this to interact with an API on the users behalf
-            echo $token->getToken();
-
-            // Use this to get a new access token if the old one expires
-            echo $token->getRefreshToken();
-
-            // Number of seconds until the access token will expire, and need refreshing
-            echo $token->getExpires();
-
-            die();
         }
     }
 
