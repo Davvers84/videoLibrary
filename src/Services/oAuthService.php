@@ -28,7 +28,7 @@ class oAuthService {
         } else {
             $this->client->authenticate($_GET['code']);
             $_SESSION['access_token'] = $this->client->getAccessToken();
-            $userData = $this->getUserData();
+            $this->getUserData(); // And Store in DB
             header('Location: ' . filter_var(getenv('APP_URL'), FILTER_SANITIZE_URL));
             exit;
         }
