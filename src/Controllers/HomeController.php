@@ -15,18 +15,7 @@ class HomeController extends Controller {
     }
 
     function index() {
-        $data = array();
-
-        if($this->userData) {
-            $data = array(
-                "user" => array(
-                    "id" => $this->userData['user']->id,
-                    "name" => $this->userData['oAuth']->name,
-                    "email" => $this->userData['oAuth']->email,
-                )
-            );
-        }
-        return $this->view("home", $data);
+        return $this->view("home", $this->getPageData());
     }
 
 }

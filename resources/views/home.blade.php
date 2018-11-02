@@ -9,6 +9,13 @@
     }
 </style>
 
+@if($successMessage)
+    <p>{{ $successMessage }}</p>
+@endif
+@if($errorMessage)
+    <p>{{ $errorMessage }}</p>
+@endif
+
 @if(!empty($user['email']))
 
     <p>USER ID = {{ $user['id'] }}</p>
