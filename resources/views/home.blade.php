@@ -9,19 +9,21 @@
     }
 </style>
 
+<h1>Vibrary</h1>
+<p>Welcome to all your Video Library needs.</p>
+<hr/>
 @if($successMessage)
     <p>{{ $successMessage }}</p>
 @endif
 @if($errorMessage)
     <p>{{ $errorMessage }}</p>
 @endif
-
 @if(!empty($user['email']))
 
     <p>USER ID = {{ $user['id'] }}</p>
 
     <p>Welcome {{ $user['name'] }}, thank you for signing in!</p>
-    <a href="/video/downloads">My downloads videos</a>
+    <a href="/video/downloads">My downloaded videos</a>
     <center>
     <form action="/video/search" method="post">
         <label for="search">Search for videos:</label>
