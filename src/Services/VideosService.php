@@ -20,6 +20,23 @@ Class VideosService {
         $this->videoRepository = $videoRepository;
         $this->userService = $userService;
         $this->oAuthService = $oAuthService;
+    }
+
+    public function getVideoById($id) {
+        return $this->videoRepository->getVideoById($id);
+    }
+
+    public function getVideosByUser($id) {
+        return $this->videoRepository->getVideosByUser($id);
+    }
+
+//    public function getVideos() {
+//        return $this->userService->getVideos();
+//    }
+
+}
+
+
 
 //        if (!file_exists($file = ROOTPATH . '/vendor/autoload.php')) {
 //            throw new \Exception('please run "composer require google/apiclient:~2.0" in "' . ROOTPATH .'"');
@@ -195,6 +212,3 @@ Class VideosService {
 //        searchListByKeyword($service,
 //            'snippet',
 //            array('maxResults' => 25, 'q' => 'surfing', 'type' => ''));
-    }
-
-}

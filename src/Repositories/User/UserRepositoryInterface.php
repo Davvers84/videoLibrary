@@ -34,4 +34,6 @@ interface UserRepositoryInterface
 
     public function createFromGoogle($email, $name);
 
+//    public function getVideos();
+
 }

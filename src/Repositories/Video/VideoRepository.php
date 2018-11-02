@@ -14,21 +14,12 @@ class VideoRepository extends BaseRepository implements VideoRepositoryInterface
         $this->model = $model;
     }
 
-//    public function getUserByEmail($email) {
-//        return $this->model->where('email', $email)->first();
-//    }
-//
-//    public function findByNameOrEmail($search) {
-//       return $this->model->where('name', 'LIKE', '%' . $search . '%')
-//            ->orWhere('email', 'LIKE', '%' . $search . '%')
-//            ->get();
-//    }
-//
-//    public function createFromGoogle($email, $name)
-//    {
-//        return $this->model->create([
-//            'email' => $email,
-//            'name' => $name
-//        ]);
-//    }
+    public function getVideoById($id) {
+        return $this->model->where('id', $id)->first();
+    }
+
+    public function getVideosByUser($id) {
+        return $this->model->where('user_id', $id)->get();
+    }
+
 }

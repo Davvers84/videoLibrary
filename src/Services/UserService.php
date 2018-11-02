@@ -9,6 +9,7 @@ class UserService
     protected $userRepository;
 
     public function __construct(UserRepositoryInterface $userRepository) {
+        // @todo replace with true dependancy injection
         $this->userRepository = $userRepository;
     }
 
@@ -37,5 +38,9 @@ class UserService
 
         return $user;
     }
+
+//    public function getVideos() {
+//        $this->userRepository->getVideos();
+//    }
 
 }

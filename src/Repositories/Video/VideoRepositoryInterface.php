@@ -29,4 +29,8 @@ interface VideoRepositoryInterface
 //    public function delete($id);
 //
 
+    public function getVideoById($id);
+
+    public function getVideosByUser($id);
+
 }

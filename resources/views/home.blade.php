@@ -10,6 +10,9 @@
 </style>
 
 @if(!empty($user['email']))
+
+    <p>USER ID = {{ $user['id'] }}</p>
+
     <p>Welcome {{ $user['name'] }}, thank you for signing in!</p>
     <a href="/video/downloads">My downloads videos</a>
     <a href="/auth/signout">Sign out here!</a>

@@ -1,7 +1,9 @@
 <?php
 namespace Vibrary\Controllers;
 
+use Vibrary\Models\User; // @todo remove this after testing
 use Vibrary\Models\Video;
+use Vibrary\Repositories\User\UserRepository;  // @todo remove this after testing
 use Vibrary\Repositories\Video\VideoRepository;
 use Vibrary\Services\VideosService;
 
@@ -16,6 +18,8 @@ class VideoController extends Controller {
         $videoRepo = new VideoRepository($videoModel);
         $this->videoService = new VideosService($videoRepo, $this->userService, $this->oAuthService);
 
+//        $userModel = new User();
+//        $userRepo = new UserRepository($userModel);
 //        $user = $userRepo->findbyId(1);
 //
 ////        echo '<pre>';
@@ -27,6 +31,8 @@ class VideoController extends Controller {
 //        echo '<pre>';
 //        print_r($videos);
 //        echo '</pre>';
+//
+//        die();
     }
 
     function downloads() {
@@ -39,6 +45,10 @@ class VideoController extends Controller {
                     "email" => $this->userData['oAuth']->email,
                 )
             );
+
+            $videos = $this->videoService->getVideosByUser($data['user']['id']);
+            $data['videos'] = $videos;
+
         }
         return $this->view("video-downloads", $data);
     }
