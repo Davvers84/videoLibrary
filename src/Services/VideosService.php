@@ -7,13 +7,17 @@
  */
 namespace Vibrary\Services;
 
+use Vibrary\Repositories\Video\VideoRepositoryInterface;
+
 Class VideosService {
 
+    protected $videoRepository;
     protected $oAuthService;
     protected $userService;
 
-    function __construct(UserService $userService, oAuthService $oAuthService) {
+    function __construct(VideoRepositoryInterface $videoRepository, UserService $userService, oAuthService $oAuthService) {
         // @todo replace with true dependancy injection
+        $this->videoRepository = $videoRepository;
         $this->userService = $userService;
         $this->oAuthService = $oAuthService;
 

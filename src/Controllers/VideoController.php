@@ -1,6 +1,8 @@
 <?php
 namespace Vibrary\Controllers;
 
+use Vibrary\Models\Video;
+use Vibrary\Repositories\Video\VideoRepository;
 use Vibrary\Services\VideosService;
 
 class VideoController extends Controller {
@@ -9,7 +11,10 @@ class VideoController extends Controller {
 
     function __construct() {
         parent::__construct();
-        $this->videoService = new VideosService($this->userService, $this->oAuthService);
+
+        $videoModel = new Video();
+        $videoRepo = new VideoRepository($videoModel);
+        $this->videoService = new VideosService($videoRepo, $this->userService, $this->oAuthService);
 
 //        $user = $userRepo->findbyId(1);
 //
