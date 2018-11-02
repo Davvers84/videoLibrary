@@ -4,8 +4,6 @@ namespace Vibrary\Controllers;
 class HomeController extends PageController
 {
 
-//    protected $oAuthService;
-
     function __construct()
     {
         parent::__construct();

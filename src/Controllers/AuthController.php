@@ -4,8 +4,6 @@ namespace Vibrary\Controllers;
 class AuthController extends Controller
 {
 
-//    protected $oAuthService;
-
     function __construct()
     {
         parent::__construct();
