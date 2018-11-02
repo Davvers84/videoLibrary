@@ -9,7 +9,14 @@ namespace Vibrary\Services;
 
 Class VideosService {
 
-    function __construct() {
+    protected $oAuthService;
+    protected $userService;
+
+    function __construct(UserService $userService, oAuthService $oAuthService) {
+        // @todo replace with true dependancy injection
+        $this->userService = $userService;
+        $this->oAuthService = $oAuthService;
+
 //        if (!file_exists($file = ROOTPATH . '/vendor/autoload.php')) {
 //            throw new \Exception('please run "composer require google/apiclient:~2.0" in "' . ROOTPATH .'"');
 //        }

@@ -9,7 +9,7 @@ class VideoController extends Controller {
 
     function __construct() {
         parent::__construct();
-        $this->videoService = new VideosService();
+        $this->videoService = new VideosService($this->userService, $this->oAuthService);
 
 //        $user = $userRepo->findbyId(1);
 //
@@ -25,7 +25,17 @@ class VideoController extends Controller {
     }
 
     function downloads() {
-        return $this->view("video-downloads");
+        $data = array();
+        if($this->userData) {
+            $data = array(
+                "user" => array(
+                    "id" => $this->userData['user']->id,
+                    "name" => $this->userData['oAuth']->name,
+                    "email" => $this->userData['oAuth']->email,
+                )
+            );
+        }
+        return $this->view("video-downloads", $data);
     }
 
     function search() {

@@ -9,15 +9,15 @@ use Vibrary\Services\UserService;
 class Controller {
 
     protected $oAuthService;
-
+    protected $userService;
     public $userData;
 
     function __construct() {
         // @todo replace with true dependancy injection
         $userModel = new User();
         $userRepo = new UserRepository($userModel);
-        $userService = new UserService($userRepo);
-        $this->oAuthService = new oAuthService($userService);
+        $this->userService = new UserService($userRepo);
+        $this->oAuthService = new oAuthService($this->userService);
         $this->getAuthenticatedUser();
     }
 

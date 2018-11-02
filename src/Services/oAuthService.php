@@ -6,7 +6,6 @@ require ROOTPATH . '/vendor/autoload.php';
 class oAuthService {
 
     protected $userService;
-
     protected $client;
 
     function __construct(UserService $userService) {
