@@ -20,17 +20,17 @@ class oAuthService {
         $this->client->addScope("https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email");
     }
 
-    function callback($response) {
+    function callback() {
         if (!isset($_GET['code'])) {
             $auth_url = $this->client->createAuthUrl();
             header('Location: ' . filter_var($auth_url, FILTER_SANITIZE_URL));
+            exit;
         } else {
             $this->client->authenticate($_GET['code']);
             $_SESSION['access_token'] = $this->client->getAccessToken();
-
             $userData = $this->getUserData();
-
             header('Location: ' . filter_var(getenv('APP_URL'), FILTER_SANITIZE_URL));
+            exit;
         }
     }
 

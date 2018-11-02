@@ -22,6 +22,7 @@ class AuthController extends Controller {
     function signout() {
         session_destroy();
         header('Location: ' . filter_var(getenv('APP_URL'), FILTER_SANITIZE_URL));
+        exit;
     }
 
 }

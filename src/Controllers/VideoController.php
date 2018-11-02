@@ -23,9 +23,9 @@ class VideoController extends PageController {
             $videos = $this->videoService->getVideosByUser($this->userData['user']->id);
             $this->addPageData('videos', $videos);
         } else{
-            // @todo add error message
             $this->setErrorMessage('Sorry we can\'t find your user! Please sign in with your Google Account');
             header('Location: ' . filter_var(getenv('APP_URL'), FILTER_SANITIZE_URL));
+            exit;
         }
 
         return $this->view("video-downloads", $this->getPageData());
@@ -51,9 +51,10 @@ class VideoController extends PageController {
             if($errors) {
                 $_SESSION['error_message'] = $errors . ' video' . ($errors > 1 ? 's' : '') . ' ' . ($errors > 1 ? 'weren\'t' : 'wasn\'t') . ' saved, possibly because you have already!';
             }
-
-            header('Location: ' . filter_var('/video/downloads', FILTER_SANITIZE_URL));
         }
+        $_SESSION['error_message'] = 'You didn\'t select any video(s) to save!';
+        header('Location: ' . filter_var($_SERVER['PHP_SELF'], FILTER_SANITIZE_URL));
+        exit;
     }
 
     function search($query) {
@@ -61,6 +62,8 @@ class VideoController extends PageController {
             $query = $_POST['query'];
             unset($_POST['query']);
             header('Location: ' . filter_var('/video/search/' . $query, FILTER_SANITIZE_URL));
+            exit;
+
         }
 
         $data = array();
