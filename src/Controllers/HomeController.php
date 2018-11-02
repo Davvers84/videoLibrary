@@ -1,16 +1,18 @@
 <?php
 namespace Vibrary\Controllers;
 
-class HomeController extends PageController {
+class HomeController extends PageController
+{
 
     protected $oAuthService;
 
-    function __construct() {
+    function __construct()
+    {
         parent::__construct();
     }
 
-    function index() {
+    function index()
+    {
         return $this->view("home", $this->getPageData());
     }
-
 }

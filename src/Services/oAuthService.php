@@ -3,12 +3,14 @@ namespace Vibrary\Services;
 
 require ROOTPATH . '/vendor/autoload.php';
 
-class oAuthService {
+class oAuthService
+{
 
     protected $userService;
     protected $client;
 
-    function __construct(UserService $userService) {
+    function __construct(UserService $userService)
+    {
         // @todo replace with true dependancy injection
         $this->userService = $userService;
 
@@ -20,7 +22,8 @@ class oAuthService {
         $this->client->addScope("https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email");
     }
 
-    function callback() {
+    function callback()
+    {
         if (!isset($_GET['code'])) {
             $auth_url = $this->client->createAuthUrl();
             header('Location: ' . filter_var($auth_url, FILTER_SANITIZE_URL));
@@ -34,7 +37,8 @@ class oAuthService {
         }
     }
 
-    function authenticate() {
+    function authenticate()
+    {
         if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
             $this->client->setAccessToken($_SESSION['access_token']);
             return true;
@@ -43,12 +47,13 @@ class oAuthService {
         }
     }
 
-    function getUserData() {
+    function getUserData()
+    {
         $oAuth = new \Google_Service_Oauth2($this->client);
         $userData = $oAuth->userinfo_v2_me->get();
         $userDB = $this->userService->getUserByEmail($userData->email);
 
-        if(!$userDB) {
+        if (!$userDB) {
             $this->userService->createForGoogle($userData->email, $userData->name);
             $userDB = $this->userService->getUserByEmail($userData->email);
         }
@@ -59,7 +64,8 @@ class oAuthService {
         );
     }
 
-    function redirect() {
+    function redirect()
+    {
         if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
             $this->client->setAccessToken($_SESSION['access_token']);
             $auth_url = $this->client->createAuthUrl();
@@ -77,5 +83,4 @@ class oAuthService {
             }
         }
     }
-
 }

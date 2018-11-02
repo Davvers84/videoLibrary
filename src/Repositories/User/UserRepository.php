@@ -10,25 +10,28 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
     public $model;
 
-    public function __construct(User $model) {
+    public function __construct(User $model)
+    {
         $this->model = $model;
     }
 
-    public function getUserByEmail($email) {
+    public function getUserByEmail($email)
+    {
         return $this->model->where('email', $email)->first();
     }
 
-    public function findByNameOrEmail($search) {
-       return $this->model->where('name', 'LIKE', '%' . $search . '%')
+    public function findByNameOrEmail($search)
+    {
+        return $this->model->where('name', 'LIKE', '%' . $search . '%')
             ->orWhere('email', 'LIKE', '%' . $search . '%')
             ->get();
     }
 
-    public function createFromGoogle($email, $name) {
+    public function createFromGoogle($email, $name)
+    {
         return $this->model->create([
             'email' => $email,
             'name' => $name
         ]);
     }
-
 }

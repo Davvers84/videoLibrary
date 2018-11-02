@@ -9,12 +9,14 @@ namespace Vibrary\Services;
 
 use Vibrary\Repositories\Video\VideoRepositoryInterface;
 
-Class VideosService {
+class VideosService
+{
 
     protected $videoRepository;
     protected $client;
 
-    function __construct(VideoRepositoryInterface $videoRepository) {
+    function __construct(VideoRepositoryInterface $videoRepository)
+    {
         // @todo replace with true dependancy injection
         $this->videoRepository = $videoRepository;
 
@@ -22,7 +24,8 @@ Class VideosService {
         $this->client->setDeveloperKey(getenv('GOOGLE_SIMPLE_API_KEY'));
     }
 
-    function searchVideos($query) {
+    function searchVideos($query)
+    {
         $youtube = new \Google_Service_YouTube($this->client);
         return $searchResponse = $youtube->search->listSearch('id,snippet', array(
             'q' => $query,
@@ -30,16 +33,18 @@ Class VideosService {
         ));
     }
 
-    public function getVideoById($id) {
+    public function getVideoById($id)
+    {
         return $this->videoRepository->getVideoById($id);
     }
 
-    public function getVideosByUser($id) {
+    public function getVideosByUser($id)
+    {
         return $this->videoRepository->getVideosByUser($id);
     }
 
-    public function create($request) {
+    public function create($request)
+    {
         return $this->videoRepository->create($request);
     }
-
 }

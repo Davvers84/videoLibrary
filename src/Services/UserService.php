@@ -8,24 +8,29 @@ class UserService
 
     protected $userRepository;
 
-    public function __construct(UserRepositoryInterface $userRepository) {
+    public function __construct(UserRepositoryInterface $userRepository)
+    {
         // @todo replace with true dependancy injection
         $this->userRepository = $userRepository;
     }
 
-    public function getUserByEmail($email) {
+    public function getUserByEmail($email)
+    {
         return $this->userRepository->getUserByEmail($email);
     }
 
-    public function getUserByAccessToken($token) {
+    public function getUserByAccessToken($token)
+    {
         return $this->userRepository->getUserByAccessToken($token);
     }
 
-    public function findByNameOrEmail($search) {
+    public function findByNameOrEmail($search)
+    {
         return $this->userRepository->findByNameOrEmail($search);
     }
 
-    public function createForGoogle($email, $name) {
+    public function createForGoogle($email, $name)
+    {
 
         $user = $this->userRepository->getUserByEmail($email);
 
@@ -38,5 +43,4 @@ class UserService
 
         return $user;
     }
-
 }

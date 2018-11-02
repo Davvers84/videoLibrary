@@ -9,11 +9,6 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 class Video extends Eloquent
 {
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'channelId', 'channelTitle', 'title', 'description', 'videoId', 'user_id'
     ];
@@ -22,6 +17,4 @@ class Video extends Eloquent
     {
         return $this->belongsTo(User::class);
     }
-
-
 }

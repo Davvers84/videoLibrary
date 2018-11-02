@@ -13,7 +13,7 @@ session_start();
 define('ROOTPATH', __DIR__ . '/..');
 require ROOTPATH . '/vendor/autoload.php';
 
-Use eftec\bladeone\BladeOne;
+use eftec\bladeone\BladeOne;
 use Vibrary\Controllers\RouteController;
 
 // Load Environment Vars
@@ -26,7 +26,7 @@ $route = new RouteController();
 // Display View
 $views = ROOTPATH . '/resources/views';
 $cache = ROOTPATH . '/resources/cache';
-$blade = new BladeOne($views, $cache,BladeOne::MODE_AUTO);
+$blade = new BladeOne($views, $cache, BladeOne::MODE_AUTO);
 
 // Cross Site Security Token
 if (empty($_SESSION['token'])) {

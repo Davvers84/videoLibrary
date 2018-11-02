@@ -6,23 +6,25 @@ use Vibrary\Models\Video;
 use Vibrary\Repositories\Video\VideoRepository;
 use Vibrary\Services\VideosService;
 
-class VideoController extends PageController {
+class VideoController extends PageController
+{
 
     protected $videoService;
 
-    function __construct() {
+    function __construct()
+    {
         parent::__construct();
         $videoModel = new Video();
         $videoRepo = new VideoRepository($videoModel);
         $this->videoService = new VideosService($videoRepo);
-
     }
 
-    function downloads() {
-        if($this->userData) {
+    function downloads()
+    {
+        if ($this->userData) {
             $videos = $this->videoService->getVideosByUser($this->userData['user']->id);
             $this->addPageData('videos', $videos);
-        } else{
+        } else {
             $this->setErrorMessage('Sorry we can\'t find your user! Please sign in with your Google Account');
             header('Location: ' . filter_var(getenv('APP_URL'), FILTER_SANITIZE_URL));
             exit;
@@ -31,10 +33,11 @@ class VideoController extends PageController {
         return $this->view("video-downloads", $this->getPageData());
     }
 
-    function save() {
-        if(array_key_exists('saveVideo', $_POST)) {
+    function save()
+    {
+        if (array_key_exists('saveVideo', $_POST)) {
             $errors = 0;
-            foreach($_POST['saveVideo'] as $video) {
+            foreach ($_POST['saveVideo'] as $video) {
                 $videoData = (Array) json_decode($video);
                 $videoData['user_id'] = $this->userData['user']->id;
                 try {
@@ -44,11 +47,11 @@ class VideoController extends PageController {
                 }
             }
 
-            if(count($_POST['saveVideo']) != $errors) {
+            if (count($_POST['saveVideo']) != $errors) {
                 $videosSaved = count($_POST['saveVideo']) - $errors;
                 $_SESSION['success_message'] = (count($_POST['saveVideo']) - $errors) . ' video' . ($videosSaved > 1 ? 's' : '') . ' saved successfully.';
             }
-            if($errors) {
+            if ($errors) {
                 $_SESSION['error_message'] = $errors . ' video' . ($errors > 1 ? 's' : '') . ' ' . ($errors > 1 ? 'weren\'t' : 'wasn\'t') . ' saved, possibly because you have already!';
             }
         }
@@ -57,17 +60,17 @@ class VideoController extends PageController {
         exit;
     }
 
-    function search($query) {
-        if(array_key_exists('query', $_POST)) {
+    function search($query)
+    {
+        if (array_key_exists('query', $_POST)) {
             $query = $_POST['query'];
             unset($_POST['query']);
             header('Location: ' . filter_var('/video/search/' . $query, FILTER_SANITIZE_URL));
             exit;
-
         }
 
         $data = array();
-        if($this->userData) {
+        if ($this->userData) {
             $data = array(
                 "user" => array(
                     "id" => $this->userData['user']->id,
@@ -80,7 +83,7 @@ class VideoController extends PageController {
         $response = $this->videoService->searchVideos($query);
 
         $data["videos"] = array();
-        foreach($response->getItems() as $item) {
+        foreach ($response->getItems() as $item) {
             $video = array(
                 "channelId" => $item->snippet->channelId,
                 "channelTitle" => $item->snippet->channelTitle,
@@ -93,5 +96,4 @@ class VideoController extends PageController {
 
         return $this->view("video-search", $data);
     }
-
 }
