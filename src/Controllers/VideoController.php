@@ -2,13 +2,11 @@
 namespace Vibrary\Controllers;
 
 use Illuminate\Database\QueryException;
-use Vibrary\Models\User; // @todo remove this after testing
 use Vibrary\Models\Video;
-use Vibrary\Repositories\User\UserRepository;  // @todo remove this after testing
 use Vibrary\Repositories\Video\VideoRepository;
 use Vibrary\Services\VideosService;
 
-class VideoController extends Controller {
+class VideoController extends PageController {
 
     protected $videoService;
 

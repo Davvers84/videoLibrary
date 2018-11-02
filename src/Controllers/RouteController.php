@@ -1,8 +1,6 @@
 <?php
 namespace Vibrary\Controllers;
 
-require ROOTPATH . '/config/app.php';
-
 class RouteController {
 
     private $route;
