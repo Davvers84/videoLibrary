@@ -59,9 +59,9 @@ class RouteController
         if ($controllerExists = file_exists(ROOTPATH . '/src/Controllers/' . $controllerName . '.php')) {
             $this->controller = new $controller;
         } else {
-            echo '404';
-            // @todo call error blade with 404 not found
-            return;
+            $_SESSION['error_message'] = '404 Page Not Found';
+            header('Location: ' . filter_var('/error/page', FILTER_SANITIZE_URL));
+            exit;
         }
 
         $method = $this->requestMethod;
@@ -71,18 +71,9 @@ class RouteController
             $this->view = $viewData['view'];
             $this->data = $viewData['data'];
         } else {
-            echo '422';
-            /* @todo call error blade with 422 not found
-             * The 422 (Unprocessable Entity) status code means the server
-             * understands the content type of the request entity (hence a
-             * 415(Unsupported Media Type) status code is inappropriate), and the
-             * syntax of the request entity is correct (thus a 400 (Bad Request)
-             * status code is inappropriate) but was unable to process the contained
-             * instructions.  For example, this error condition may occur if an XML
-             * request body contains well-formed (i.e., syntactically correct), but
-             *semantically erroneous, XML instructions.
-             */
-            return;
+            $_SESSION['error_message'] = '422 Unprocessable Entity';
+            header('Location: ' . filter_var('/error/page', FILTER_SANITIZE_URL));
+            exit;
         }
     }
 }

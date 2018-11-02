@@ -28,9 +28,4 @@ $views = ROOTPATH . '/resources/views';
 $cache = ROOTPATH . '/resources/cache';
 $blade = new BladeOne($views, $cache, BladeOne::MODE_AUTO);
 
-// Cross Site Security Token
-if (empty($_SESSION['token'])) {
-    $_SESSION['token'] = bin2hex(random_bytes(32));
-}
-$route->data['token'] =  $_SESSION['token'];
 echo $blade->run($route->view, $route->data);
