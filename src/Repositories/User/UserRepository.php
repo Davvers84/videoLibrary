@@ -31,7 +31,4 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         ]);
     }
 
-//    public function getVideos() {
-//        return $this->model->videos;
-//    }
 }

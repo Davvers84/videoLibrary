@@ -39,8 +39,4 @@ class UserService
         return $user;
     }
 
-//    public function getVideos() {
-//        $this->userRepository->getVideos();
-//    }
-
 }
