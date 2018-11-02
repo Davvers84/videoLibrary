@@ -7,9 +7,6 @@ use Vibrary\Models\User;
 
 interface UserRepositoryInterface
 {
-    /**
-     * @return mixed
-     */
     public function all();
 //
 //    /**
@@ -24,12 +21,6 @@ interface UserRepositoryInterface
 //     */
 //    public function create($request);
 //
-//    /**
-//     * @param $request
-//     * @param $id
-//     * @return mixed
-//     */
-//    public function update(Array $request, $id);
 //
 //    /**
 //     * @param $id
@@ -37,16 +28,10 @@ interface UserRepositoryInterface
 //     */
 //    public function delete($id);
 //
-    /**
-     * @param $email
-     * @return mixed
-     */
     public function getUserByEmail($email);
 
-
-    /**
-     * @param $search
-     * @return mixed
-     */
     public function findByNameOrEmail($search);
+
+    public function createFromGoogle($email, $name, $token);
+
 }

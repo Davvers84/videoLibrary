@@ -12,10 +12,6 @@ class UserService
         $this->userRepository = $userRepository;
     }
 
-//    public function all() {
-//        return $this->userRepository->all();
-//    }
-
     public function getUserByEmail($email) {
         return $this->userRepository->getUserByEmail($email);
     }
@@ -24,20 +20,22 @@ class UserService
         return $this->userRepository->findByNameOrEmail($search);
     }
 
-//    public function createUser(ProviderUser $providerUser, $provider) {
-//
-//        $user = $this->userRepository->getUserByEmail($providerUser->getEmail());
-//
-//        if (!$user) {
-//            $user = $this->userRepository->createFromProvider(
-//                $providerUser->getEmail(),
-//                $providerUser->getName()
-//            );
-//        }
-//
-//        $this->userRepository->createUserAccount($user, $providerUser->getId(), $provider);
-//
-//        return $user;
-//    }
+    public function createForGoogle($email, $name, $token) {
+
+        $user = $this->userRepository->getUserByEmail($email);
+
+        if (!$user) {
+            $user = $this->userRepository->createFromGoogle(
+                $email,
+                $name,
+                $token
+            );
+        } else {
+            $data = array("remember_token" => $token);
+            $this->userRepository->update($data, $user->id);
+        }
+
+        return $user;
+    }
 
 }
