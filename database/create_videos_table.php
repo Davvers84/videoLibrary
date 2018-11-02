@@ -10,18 +10,18 @@ require __DIR__ . '/../bootstrap.php';
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 if(!empty($argv[1]) &&  $argv[1] == "migrate") {
-    Capsule::schema()->create('users', function ($table) {
+    Capsule::schema()->create('videos', function ($table) {
         $table->increments('id');
+        $table->integer('user_id')->unsigned();
+        $table->foreign('user_id')->references('id')->on('users');
         $table->string('name');
-        $table->string('email')->unique()->nullable();
-        $table->string('password')->nullable();
-        $table->rememberToken();
+        $table->string('url')->unique();
         $table->timestamps();
     });
-    echo 'users table migrated...';
-} else if((!empty($argv[1]) &&  $argv[1] == "rollback")) {
-    Capsule::schema()->dropIfExists('users');
-    echo 'users table dropped...';
+    echo 'videos table migrated...';
+} else if(!empty($argv[1]) && $argv[1] == "rollback") {
+    Capsule::schema()->dropIfExists('videos');
+    echo 'videos table dropped...';
 } else {
     echo "Please use 'migrate' or 'rollback' command line argument";
 }
