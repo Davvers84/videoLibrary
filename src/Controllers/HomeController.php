@@ -12,27 +12,19 @@ class HomeController extends Controller {
 
     function __construct() {
         parent::__construct();
-        // @todo replace with true dependancy injection
-        $userModel = new User();
-        $userRepo = new UserRepository($userModel);
-        $userService = new UserService($userRepo);
-        $this->oAuthService = new oAuthService($userService);
     }
 
     function index() {
         $data = array();
-
-        if($this->oAuthService->authenticate()) {
-            $userData = $this->oAuthService->getUserData();
-
+        if($this->userData) {
             $data = array(
                 "user" => array(
-                    "name" => $userData->name,
-                    "email" => $userData->email,
+                    "id" => $this->userData['user']->id,
+                    "name" => $this->userData['oAuth']->name,
+                    "email" => $this->userData['oAuth']->email,
                 )
             );
         }
-
         return $this->view("home", $data);
     }
 

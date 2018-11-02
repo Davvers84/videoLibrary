@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Vibrary\Repositories\User;
+namespace Vibrary\Repositories\Video;
 
-use Vibrary\Models\User;
+use Vibrary\Models\Video;
 
-interface UserRepositoryInterface
+interface VideoRepositoryInterface
 {
     public function all();
 //
@@ -28,12 +28,9 @@ interface UserRepositoryInterface
 //     */
 //    public function delete($id);
 //
-    public function getUserByEmail($email);
 
-    public function findByNameOrEmail($search);
+    public function getVideoById($id);
 
-    public function createFromGoogle($email, $name);
-
-//    public function getVideos();
+    public function getVideosByUser($id);
 
 }

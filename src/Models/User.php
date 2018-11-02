@@ -27,10 +27,10 @@ class User extends Eloquent
         'password', 'remember_token',
     ];
 
-//    public function videos()
-//    {
-//        return $this->hasMany('Videos');
-//    }
+    public function videos()
+    {
+        return $this->hasMany(Video::class);
+    }
 
 
 }
