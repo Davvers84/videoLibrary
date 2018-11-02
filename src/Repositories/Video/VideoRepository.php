@@ -19,7 +19,7 @@ class VideoRepository extends BaseRepository implements VideoRepositoryInterface
     }
 
     public function getVideosByUser($id) {
-        return $this->model->where('user_id', $id)->get();
+        return $this->model->where('user_id', $id)->orderBy('created_at', 'desc')->get();
     }
 
 }
