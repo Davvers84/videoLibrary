@@ -1,72 +1,71 @@
 <?php
 namespace Vibrary\Services;
 
+require ROOTPATH . '/vendor/autoload.php';
+
 class oAuthService {
 
-    function __construct() {
+    protected $userService;
 
+    protected $client;
+
+    function __construct(UserService $userService) {
+        // @todo replace with true dependancy injection
+        $this->userService = $userService;
+
+        $this->client = new \Google_Client();
+        $this->client->setApplicationName("PHP Google OAuth Login Example");
+        $this->client->setClientId(getenv('GOOGLE_CLIENT_ID'));
+        $this->client->setClientSecret(getenv('GOOGLE_CLIENT_SECRET'));
+        $this->client->setRedirectUri(getenv('GOOGLE_REDIRECT'));
+        $this->client->addScope("https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email");
     }
 
-    function authUser() {
-        $provider = new League\OAuth2\Client\Provider\Google([
-            'clientId'     => getenv('GOOGLE_CLIENT_ID'),
-            'clientSecret' => getenv('GOOGLE_CLIENT_SECRET'),
-            'redirectUri'  => getenv('GOOGLE_REDIRECT'),
-            'hostedDomain' => 'example.com', // optional; used to restrict access to users on your G Suite/Google Apps for Business accounts
-        ]);
-
-        if (!empty($_GET['error'])) {
-
-            // Got an error, probably user denied access
-            exit('Got error: ' . htmlspecialchars($_GET['error'], ENT_QUOTES, 'UTF-8'));
-
-        } elseif (empty($_GET['code'])) {
-
-            // If we don't have an authorization code then get one
-            $authUrl = $provider->getAuthorizationUrl();
-            $_SESSION['oauth2state'] = $provider->getState();
-            header('Location: ' . $authUrl);
-            exit;
-
-        } elseif (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
-
-            // State is invalid, possible CSRF attack in progress
-            unset($_SESSION['oauth2state']);
-            exit('Invalid state');
-
+    function callback($response) {
+        if (!isset($_GET['code'])) {
+            $auth_url = $this->client->createAuthUrl();
+            header('Location: ' . filter_var($auth_url, FILTER_SANITIZE_URL));
         } else {
+            $this->client->authenticate($_GET['code']);
+            $_SESSION['access_token'] = $this->client->getAccessToken();
 
-            // Try to get an access token (using the authorization code grant)
-            $token = $provider->getAccessToken('authorization_code', [
-                'code' => $_GET['code']
-            ]);
+            $userData = $this->getUserData();
+            $this->userService->createForGoogle($userData->email, $userData->name);
 
-            // Optional: Now you have a token you can look up a users profile data
-            try {
+            header('Location: ' . filter_var(getenv('APP_URL'), FILTER_SANITIZE_URL));
+        }
+    }
 
-                // We got an access token, let's now get the owner details
-                $ownerDetails = $provider->getResourceOwner($token);
+    function authenticate() {
+        if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
+            $this->client->setAccessToken($_SESSION['access_token']);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-                // Use these details to create a new profile
-                printf('Hello %s!', $ownerDetails->getFirstName());
+    function getUserData() {
+        $oAuth = new \Google_Service_Oauth2($this->client);
+        return $userData = $oAuth->userinfo_v2_me->get();
+    }
 
-            } catch (Exception $e) {
-
-                // Failed to get user details
-                exit('Something went wrong: ' . $e->getMessage());
-
+    function redirect() {
+        if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
+            $this->client->setAccessToken($_SESSION['access_token']);
+            $auth_url = $this->client->createAuthUrl();
+            header('Location: ' . filter_var($auth_url, FILTER_SANITIZE_URL));
+            exit;
+        } else {
+            if (!empty($_GET['error'])) {
+                // Got an error, probably user denied access
+                exit('Got error: ' . htmlspecialchars($_GET['error'], ENT_QUOTES, 'UTF-8'));
+            } elseif (empty($_GET['code'])) {
+                // If we don't have an authorization code then get one
+                $auth_url = $this->client->createAuthUrl();
+                header('Location: ' . filter_var($auth_url, FILTER_SANITIZE_URL));
+                exit;
             }
-
-            // Use this to interact with an API on the users behalf
-            echo $token->getToken();
-
-            // Use this to get a new access token if the old one expires
-            echo $token->getRefreshToken();
-
-            // Number of seconds until the access token will expire, and need refreshing
-            echo $token->getExpires();
-
-            die();
         }
     }
 

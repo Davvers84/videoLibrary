@@ -8,5 +8,11 @@
         cursor: hand;
     }
 </style>
-{{--<a href="/redirect/google"><img id="customBtn" src="/assets/img/signin_button.png" alt="Sign-in with Google" title="Sign-in with Google"/></a>--}} <!-- will come back to this if I get the rest done -->
-<a href="/videos/search"><img id="customBtn" src="/assets/img/signin_button.png" alt="Sign-in with Google" title="Sign-in with Google"/></a>
+
+@if(!empty($user['email']))
+    <p>Welcome {{ $user['name'] }}, thank you for signing in!</p>
+    <a href="/auth/signout">Sign out here!</a>
+@else
+    <a href="/auth/google"><img id="customBtn" src="/assets/img/signin_button.png" alt="Sign-in with Google" title="Sign-in with Google"/></a><!-- will come back to this if I get the rest done -->
+@endif
+{{--<a href="/videos/search"><img id="customBtn" src="/assets/img/signin_button.png" alt="Sign-in with Google" title="Sign-in with Google"/></a>--}}

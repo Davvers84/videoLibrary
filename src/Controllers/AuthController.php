@@ -6,7 +6,7 @@ use Vibrary\Repositories\User\UserRepository;
 use Vibrary\Services\oAuthService;
 use Vibrary\Services\UserService;
 
-class HomeController extends Controller {
+class AuthController extends Controller {
 
     protected $oAuthService;
 
@@ -19,21 +19,19 @@ class HomeController extends Controller {
         $this->oAuthService = new oAuthService($userService);
     }
 
-    function index() {
-        $data = array();
+    function callback($response) {
+        $this->oAuthService->callback($response);
+        return $this->view("home", array("variable1"=>"Signed in from GOOGLE!"));
+    }
 
-        if($this->oAuthService->authenticate()) {
-            $userData = $this->oAuthService->getUserData();
+    function google() {
+        $this->oAuthService->redirect();
+        return $this->view("home");
+    }
 
-            $data = array(
-                "user" => array(
-                    "name" => $userData->name,
-                    "email" => $userData->email,
-                )
-            );
-        }
-
-        return $this->view("home", $data);
+    function signout() {
+        session_destroy();
+        header('Location: ' . filter_var(getenv('APP_URL'), FILTER_SANITIZE_URL));
     }
 
 }
