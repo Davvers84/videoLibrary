@@ -6,6 +6,7 @@
  * Time: 15:34
  */
 session_start();
+
 define('ROOTPATH', __DIR__ . '/..');
 require ROOTPATH . '/vendor/autoload.php';
 

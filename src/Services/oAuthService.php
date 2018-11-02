@@ -3,23 +3,15 @@ namespace Vibrary\Services;
 
 require ROOTPATH . '/vendor/autoload.php';
 
-use League\OAuth2\Client\Provider\Google;
-use Vibrary\Models\User;
-use Vibrary\Repositories\User\UserRepository;
-
 class oAuthService {
 
     protected $userService;
 
-    protected $provider;
-
     protected $client;
 
-    function __construct() {
+    function __construct(UserService $userService) {
         // @todo replace with true dependancy injection
-        $userModel = new User();
-        $userRepo = new UserRepository($userModel);
-        $this->userService = new UserService($userRepo);
+        $this->userService = $userService;
 
         $this->client = new \Google_Client();
         $this->client->setApplicationName("PHP Google OAuth Login Example");
@@ -38,9 +30,18 @@ class oAuthService {
             $_SESSION['access_token'] = $this->client->getAccessToken();
 
             $userData = $this->getUserData();
+            $this->userService->createForGoogle($userData->email, $userData->name);
 
-            $this->userService->createForGoogle($userData->email, $userData->name, $_SESSION['token']);
             header('Location: ' . filter_var(getenv('APP_URL'), FILTER_SANITIZE_URL));
+        }
+    }
+
+    function authenticate() {
+        if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
+            $this->client->setAccessToken($_SESSION['access_token']);
+            return true;
+        } else {
+            return false;
         }
     }
 

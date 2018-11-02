@@ -16,23 +16,23 @@ class UserService
         return $this->userRepository->getUserByEmail($email);
     }
 
+    public function getUserByAccessToken($token) {
+        return $this->userRepository->getUserByAccessToken($token);
+    }
+
     public function findByNameOrEmail($search) {
         return $this->userRepository->findByNameOrEmail($search);
     }
 
-    public function createForGoogle($email, $name, $token) {
+    public function createForGoogle($email, $name) {
 
         $user = $this->userRepository->getUserByEmail($email);
 
         if (!$user) {
             $user = $this->userRepository->createFromGoogle(
                 $email,
-                $name,
-                $token
+                $name
             );
-        } else {
-            $data = array("remember_token" => $token);
-            $this->userRepository->update($data, $user->id);
         }
 
         return $user;

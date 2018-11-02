@@ -24,12 +24,11 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             ->get();
     }
 
-    public function createFromGoogle($email, $name, $token)
+    public function createFromGoogle($email, $name)
     {
         return $this->model->create([
             'email' => $email,
-            'name' => $name,
-            'remember_token' => $token
+            'name' => $name
         ]);
     }
 }

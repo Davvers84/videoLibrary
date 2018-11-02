@@ -32,6 +32,6 @@ interface UserRepositoryInterface
 
     public function findByNameOrEmail($search);
 
-    public function createFromGoogle($email, $name, $token);
+    public function createFromGoogle($email, $name);
 
 }
