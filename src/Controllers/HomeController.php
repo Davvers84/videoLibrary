@@ -19,8 +19,9 @@ class HomeController extends Controller {
         if($this->userData) {
             $data = array(
                 "user" => array(
-                    "name" => $this->userData->name,
-                    "email" => $this->userData->email,
+                    "id" => $this->userData['user']->id,
+                    "name" => $this->userData['oAuth']->name,
+                    "email" => $this->userData['oAuth']->email,
                 )
             );
         }
