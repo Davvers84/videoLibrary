@@ -15,6 +15,13 @@
 
     <p>Welcome {{ $user['name'] }}, thank you for signing in!</p>
     <a href="/video/downloads">My downloads videos</a>
+    <center>
+    <form action="/video/search" method="post">
+        <label for="search">Search for videos:</label>
+        <input type="text" id="search" name="query" alt="" title=""/>
+        <input type="submit" id="submit" name="submit"/>
+    </form>
+    </center>
     <a href="/auth/signout">Sign out here!</a>
 @else
     <a href="/auth/google"><img id="customBtn" src="/assets/img/signin_button.png" alt="Sign-in with Google" title="Sign-in with Google"/></a><!-- will come back to this if I get the rest done -->

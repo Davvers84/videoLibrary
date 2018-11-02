@@ -18,21 +18,6 @@ class VideoController extends Controller {
         $videoRepo = new VideoRepository($videoModel);
         $this->videoService = new VideosService($videoRepo, $this->userService, $this->oAuthService);
 
-//        $userModel = new User();
-//        $userRepo = new UserRepository($userModel);
-//        $user = $userRepo->findbyId(1);
-//
-////        echo '<pre>';
-////        print_r($user);
-////        echo '</pre>';
-//
-//        $videos = $user->videos;
-//
-//        echo '<pre>';
-//        print_r($videos);
-//        echo '</pre>';
-//
-//        die();
     }
 
     function downloads() {
@@ -53,7 +38,22 @@ class VideoController extends Controller {
         return $this->view("video-downloads", $data);
     }
 
-    function search() {
+    function search($query) {
+
+        if(array_key_exists('query', $_POST)) {
+            $query = $_POST['query'];
+            unset($_POST['query']);
+            header('Location: ' . filter_var('/video/search/' . $query, FILTER_SANITIZE_URL));
+        }
+
+        $response = $this->videoService->searchVideos($query);
+
+        echo '<pre>';
+        print_r($response);
+        echo '</pre>';
+
+        die();
+
         return $this->view("video-search");
     }
 
