@@ -12,22 +12,18 @@ use Vibrary\Repositories\Video\VideoRepositoryInterface;
 Class VideosService {
 
     protected $videoRepository;
-    protected $oAuthService;
-    protected $userService;
+    protected $client;
 
-    function __construct(VideoRepositoryInterface $videoRepository, UserService $userService, oAuthService $oAuthService) {
+    function __construct(VideoRepositoryInterface $videoRepository) {
         // @todo replace with true dependancy injection
         $this->videoRepository = $videoRepository;
-        $this->userService = $userService; // @todo might not need this - so remove it
-        $this->oAuthService = $oAuthService; //@todo remove this if not needed - looks like I don't need it so far
+
+        $this->client = new \Google_Client();
+        $this->client->setDeveloperKey(getenv('GOOGLE_SIMPLE_API_KEY'));
     }
 
     function searchVideos($query) {
-        $client = new \Google_Client();
-        $client->setDeveloperKey(getenv('GOOGLE_SIMPLE_API_KEY'));
-
-        // Define an object that will be used to make all API requests.
-        $youtube = new \Google_Service_YouTube($client);
+        $youtube = new \Google_Service_YouTube($this->client);
         return $searchResponse = $youtube->search->listSearch('id,snippet', array(
             'q' => $query,
             'maxResults' => 10,
@@ -42,8 +38,8 @@ Class VideosService {
         return $this->videoRepository->getVideosByUser($id);
     }
 
-//    public function getVideos() {
-//        return $this->userService->getVideos();
-//    }
+    public function create($request) {
+        return $this->videoRepository->create($request);
+    }
 
 }

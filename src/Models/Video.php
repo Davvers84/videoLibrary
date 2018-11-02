@@ -15,7 +15,7 @@ class Video extends Eloquent
      * @var array
      */
     protected $fillable = [
-        'name', 'url'
+        'channelId', 'channelTitle', 'title', 'description', 'videoId', 'user_id'
     ];
 
     public function user()

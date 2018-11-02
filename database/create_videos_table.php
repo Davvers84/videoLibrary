@@ -14,8 +14,10 @@ if(!empty($argv[1]) &&  $argv[1] == "migrate") {
         $table->increments('id');
         $table->integer('user_id')->unsigned()->index()->nullable();
         $table->foreign('user_id')->references('id')->on('users');
-        $table->string('name');
         $table->string('channelId')->nullable();
+        $table->string('channelTitle')->nullable();
+        $table->string('title')->nullable();
+        $table->string('description')->nullable();
         $table->string('videoId')->unique();
         $table->timestamps();
     });
