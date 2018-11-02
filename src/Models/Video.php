@@ -6,7 +6,7 @@ require ROOTPATH . '/bootstrap.php';
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class User extends Eloquent
+class Video extends Eloquent
 {
 
     /**
@@ -15,21 +15,12 @@ class User extends Eloquent
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'remember_token'
-    ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
+        'name', 'url'
     ];
 
     public function videos()
     {
-        return $this->hasMany('Videos');
+        return $this->belongsTo('Vibrary\Models\User');
     }
 
 
