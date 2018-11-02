@@ -16,6 +16,7 @@ class HomeController extends Controller {
 
     function index() {
         $data = array();
+
         if($this->userData) {
             $data = array(
                 "user" => array(

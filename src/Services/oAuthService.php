@@ -29,7 +29,6 @@ class oAuthService {
             $_SESSION['access_token'] = $this->client->getAccessToken();
 
             $userData = $this->getUserData();
-            $this->userService->createForGoogle($userData['oAuth']->email, $userData['oAuth']->name);
 
             header('Location: ' . filter_var(getenv('APP_URL'), FILTER_SANITIZE_URL));
         }
@@ -48,6 +47,12 @@ class oAuthService {
         $oAuth = new \Google_Service_Oauth2($this->client);
         $userData = $oAuth->userinfo_v2_me->get();
         $userDB = $this->userService->getUserByEmail($userData->email);
+
+        if(!$userDB) {
+            $this->userService->createForGoogle($userData->email, $userData->name);
+            $userDB = $this->userService->getUserByEmail($userData->email);
+        }
+
         return array(
             "oAuth" => $userData,
             "user" => $userDB

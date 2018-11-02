@@ -5,6 +5,9 @@
  * Date: 31/10/18
  * Time: 15:34
  */
+
+error_reporting(E_ERROR | E_PARSE); // As had an warning with Guzzle that I don't have time to fix
+
 session_start();
 
 define('ROOTPATH', __DIR__ . '/..');
