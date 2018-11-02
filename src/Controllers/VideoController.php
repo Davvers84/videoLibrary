@@ -6,11 +6,21 @@ use Vibrary\Models\Video;
 use Vibrary\Repositories\Video\VideoRepository;
 use Vibrary\Services\VideosService;
 
+/**
+ * Class VideoController
+ * @package Vibrary\Controllers
+ */
 class VideoController extends PageController
 {
 
+    /**
+     * @var VideosService
+     */
     protected $videoService;
 
+    /**
+     * VideoController constructor.
+     */
     function __construct()
     {
         parent::__construct();
@@ -19,6 +29,9 @@ class VideoController extends PageController
         $this->videoService = new VideosService($videoRepo);
     }
 
+    /**
+     * @return array
+     */
     function downloads()
     {
         if ($this->userData) {
@@ -33,6 +46,9 @@ class VideoController extends PageController
         return $this->view("video-downloads", $this->getPageData());
     }
 
+    /**
+     *
+     */
     function save()
     {
         if (array_key_exists('saveVideo', $_POST)) {
@@ -60,6 +76,10 @@ class VideoController extends PageController
         exit;
     }
 
+    /**
+     * @param $query
+     * @return array
+     */
     function search($query)
     {
         if (array_key_exists('query', $_POST)) {

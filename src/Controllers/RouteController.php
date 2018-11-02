@@ -1,22 +1,59 @@
 <?php
 namespace Vibrary\Controllers;
 
+/**
+ * Class RouteController
+ * @package Vibrary\Controllers
+ */
 class RouteController
 {
 
+    /**
+     * @var
+     */
     private $route;
+    /**
+     * @var string
+     */
     private $requestController;
+    /**
+     * @var string
+     */
     private $requestMethod;
+    /**
+     * @var
+     */
     private $requestPayload;
 
+    /**
+     * @var int
+     */
     private $controllerIndex = 1;
+    /**
+     * @var int
+     */
     private $methodIndex = 2;
+    /**
+     * @var int
+     */
     private $payloadIndex = 3;
 
+    /**
+     * @var
+     */
     public $controller;
+    /**
+     * @var
+     */
     public $view;
+    /**
+     * @var
+     */
     public $data;
 
+    /**
+     * RouteController constructor.
+     */
     function __construct()
     {
         $this->route = $_SERVER['REQUEST_URI'];
@@ -51,6 +88,9 @@ class RouteController
         $this->route();
     }
 
+    /**
+     *
+     */
     function route()
     {
         $controllerName = ucfirst($this->requestController) . 'Controller';

@@ -3,6 +3,10 @@
 
 namespace Vibrary\Repositories\User;
 
+/**
+ * Interface UserRepositoryInterface
+ * @package Vibrary\Repositories\User
+ */
 interface UserRepositoryInterface
 {
     public function all();

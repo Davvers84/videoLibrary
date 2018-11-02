@@ -3,12 +3,26 @@ namespace Vibrary\Services;
 
 require ROOTPATH . '/vendor/autoload.php';
 
+/**
+ * Class oAuthService
+ * @package Vibrary\Services
+ */
 class oAuthService
 {
 
+    /**
+     * @var UserService
+     */
     protected $userService;
+    /**
+     * @var \Google_Client
+     */
     protected $client;
 
+    /**
+     * oAuthService constructor.
+     * @param UserService $userService
+     */
     function __construct(UserService $userService)
     {
         // @todo replace with true dependancy injection
@@ -22,6 +36,9 @@ class oAuthService
         $this->client->addScope("https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email");
     }
 
+    /**
+     *
+     */
     function callback()
     {
         if (!isset($_GET['code'])) {
@@ -37,6 +54,9 @@ class oAuthService
         }
     }
 
+    /**
+     * @return bool
+     */
     function authenticate()
     {
         if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
@@ -47,6 +67,9 @@ class oAuthService
         }
     }
 
+    /**
+     * @return array
+     */
     function getUserData()
     {
         $oAuth = new \Google_Service_Oauth2($this->client);
@@ -64,6 +87,9 @@ class oAuthService
         );
     }
 
+    /**
+     *
+     */
     function redirect()
     {
         if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {

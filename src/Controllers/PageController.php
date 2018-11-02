@@ -1,17 +1,33 @@
 <?php
 namespace Vibrary\Controllers;
 
+/**
+ * Class PageController
+ * @package Vibrary\Controllers
+ */
 class PageController extends Controller
 {
 
+    /**
+     * @var
+     */
     public $userData;
+    /**
+     * @var
+     */
     public $pageData;
 
+    /**
+     * PageController constructor.
+     */
     function __construct()
     {
         parent::__construct();
     }
 
+    /**
+     *
+     */
     function addUserPageData()
     {
         if ($this->userData) {
@@ -26,12 +42,18 @@ class PageController extends Controller
         }
     }
 
+    /**
+     *
+     */
     function setMessages()
     {
         $this->setSuccessMessage();
         $this->setErrorMessage();
     }
 
+    /**
+     * @param string $message
+     */
     function setSuccessMessage($message = '')
     {
         if ($message) {
@@ -42,6 +64,9 @@ class PageController extends Controller
         unset($_SESSION['success_message']);
     }
 
+    /**
+     * @param string $message
+     */
     function setErrorMessage($message = '')
     {
         if ($message) {
@@ -52,11 +77,18 @@ class PageController extends Controller
         unset($_SESSION['error_message']);
     }
 
+    /**
+     * @param $key
+     * @param $data
+     */
     function addPageData($key, $data)
     {
         $this->pageData[$key] = $data;
     }
 
+    /**
+     * @return mixed
+     */
     function getPageData()
     {
         $this->addUserPageData();
@@ -64,6 +96,11 @@ class PageController extends Controller
         return $this->pageData;
     }
 
+    /**
+     * @param $view
+     * @param array $data
+     * @return array
+     */
     function view($view, $data = array())
     {
         return array("view" => $view, "data" => $data);
