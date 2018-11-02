@@ -18,9 +18,9 @@ class Video extends Eloquent
         'name', 'url'
     ];
 
-    public function videos()
+    public function user()
     {
-        return $this->belongsTo('Vibrary\Models\User');
+        return $this->belongsTo(User::class);
     }
 
 

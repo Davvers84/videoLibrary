@@ -29,7 +29,7 @@ class User extends Eloquent
 
     public function videos()
     {
-        return $this->hasMany('Videos');
+        return $this->hasMany(Video::class);
     }
 
 
