@@ -39,22 +39,33 @@ class VideoController extends Controller {
     }
 
     function search($query) {
-
         if(array_key_exists('query', $_POST)) {
             $query = $_POST['query'];
             unset($_POST['query']);
             header('Location: ' . filter_var('/video/search/' . $query, FILTER_SANITIZE_URL));
         }
 
+        $data = array();
+        if($this->userData) {
+            $data = array(
+                "user" => array(
+                    "id" => $this->userData['user']->id,
+                    "name" => $this->userData['oAuth']->name,
+                    "email" => $this->userData['oAuth']->email,
+                )
+            );
+        }
+
         $response = $this->videoService->searchVideos($query);
 
-        echo '<pre>';
-        print_r($response);
-        echo '</pre>';
+        $data["videos"] = array();
+        foreach($response->getItems() as $item) {
+            $video = array("channelId" => $item->id->channelId,
+                            "videoId" => $item->id->videoId);
+            $data["videos"][] = $video;
+        }
 
-        die();
-
-        return $this->view("video-search");
+        return $this->view("video-search", $data);
     }
 
 }

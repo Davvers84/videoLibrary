@@ -15,7 +15,8 @@ if(!empty($argv[1]) &&  $argv[1] == "migrate") {
         $table->integer('user_id')->unsigned()->index()->nullable();
         $table->foreign('user_id')->references('id')->on('users');
         $table->string('name');
-        $table->string('url')->unique();
+        $table->string('channelId')->nullable();
+        $table->string('videoId')->unique();
         $table->timestamps();
     });
     echo 'videos table migrated...';

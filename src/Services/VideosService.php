@@ -30,7 +30,7 @@ Class VideosService {
         $youtube = new \Google_Service_YouTube($client);
         return $searchResponse = $youtube->search->listSearch('id,snippet', array(
             'q' => $query,
-            'maxResults' => 50,
+            'maxResults' => 10,
         ));
     }
 
