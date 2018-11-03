@@ -6,7 +6,7 @@
                 <h1>Search for Videos</h1>
             </div>
             <div class="col-md-8">
-                <button type="button" type="submit" id="submit" name="submit" class="btn btn-primary float-right">Save to My Vibrary</button>
+                <input type="submit" id="submit" name="submit" class="btn btn-primary float-right" value="Save to My Vibrary"/>
             </div>
             <hr/>
             @include('includes.alerts')
@@ -38,7 +38,7 @@
         @endforeach
         <div class="row">
             <div class="col-md-12">
-                <button type="button" type="submit" id="submit" name="submit" class="btn btn-primary float-right">Save to My Vibrary</button>
+                <input type="submit" id="submit" name="submit" class="btn btn-primary float-right" value="Save to My Vibrary"/>
             </div>
         </div>
     </form>

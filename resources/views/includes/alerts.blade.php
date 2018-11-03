@@ -1,4 +1,5 @@
 @if($successMessage || $errorMessage)
+<div class="container">
     <div class="row space-above-and-below">
         <div class="col-md-12">
 
@@ -15,4 +16,5 @@
 
         </div>
     </div>
+</div>
 @endif

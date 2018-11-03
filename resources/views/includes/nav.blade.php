@@ -5,14 +5,17 @@
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-5">
         @if(!empty($user['email']))
             <p class="sign-in-text">Welcome {{ $user['name'] }}, thank you for signing in!</p>
         @endif
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link"href="/video/search">Search</a>
+                </li>
                 @if(!empty($user['email']))
                     <li class="nav-item">
                         <a class="nav-link"href="/video/downloads">My Vibrary</a>
