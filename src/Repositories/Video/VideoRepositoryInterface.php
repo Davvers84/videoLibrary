@@ -25,4 +25,10 @@ interface VideoRepositoryInterface
      * @return mixed
      */
     public function getVideosByUser($id);
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function delete($id);
 }
