@@ -1,7 +1,7 @@
 @extends('layouts.default')
 @section('content')
     <form action="/video/save" method="post">
-        <div class="row">
+        <div class="row video-row">
             <div class="col-md-4">
                 <h1>Search for Videos</h1>
             </div>
@@ -21,19 +21,18 @@
             }
             @endphp
 
-        <div class="row">
+        <div class="row video-row">
             <div div class="col-md-3">
                 <iframe width="240" src="https://www.youtube.com/embed/{{ $video['videoId'] }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
             <div class="col-md-9">
-                <h2>
-                    <div class="custom-control form-control-lg custom-checkbox">
-                        <input type="checkbox" id="saveVideo" name="saveVideo[]" class="custom-control-input" value="{{ json_encode($video) }}"/>
-                        <label class="custom-control-label" for="saveVideo">{{ $video['title'] }}</label>
-                    </div>
-                </h2>
+                <h2 class="video-title">{{ $video['title'] }}</h2>
                 <p>{{ $video['description'] }}</p>
                 <p>Channel: <strong>{{ $video['channelTitle'] }}</strong></p>
+                <div class="form-check">
+                    <input type="checkbox" id="saveVideo" name="saveVideo[]" class="form-check-input" value="{{ json_encode($video) }}"/>
+                    <label class="form-check-label text-primary" for="saveVideo">Select this Video</label>
+                </div>
             </div>
         </div>
         @endforeach

@@ -18,6 +18,10 @@ h6 {
   font-weight: 800 !important;
 }
 
+h2.video-title {
+  font-size: 1.25em;
+}
+
 .btn-xl {
   text-transform: uppercase;
   padding: 1.5rem 3rem;
@@ -54,7 +58,11 @@ h6 {
   letter-spacing: 0.1rem;
 }
 
-section.no-masthead {
+.space-above-and-below {
+  padding-top: 2em;
+  padding-bottom: 2rem;
+}
+section.no-masthead  {
   padding-top: calc(7rem + 72px);
   padding-bottom: 2rem;
 }
@@ -145,6 +153,10 @@ header.masthead .bg-circle-4 {
   background-color: #ee0979;
   border-color: #ee0979;
 }
+.text-primary {
+  color: #ee0979!important;
+  font-size: 2em;
+}
 
 .btn-primary:active, .btn-primary:focus, .btn-primary:hover {
   background-color: #bd0760 !important;
@@ -190,4 +202,10 @@ header.masthead .bg-circle-4 {
 .custom-control-label {
   padding-top: 9px;
   padding-left: 5px;
+}
+
+.video-row {
+  border-bottom: 1px #ccc solid;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
 }

@@ -3,7 +3,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>One Page Wonder - Start Bootstrap Template</title>
+<title>Vibrary - Meeting your Video Library needs</title>
 
 <!-- Bootstrap core CSS -->
 <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
