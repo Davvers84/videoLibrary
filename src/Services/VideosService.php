@@ -77,4 +77,13 @@ class VideosService
     {
         return $this->videoRepository->create($request);
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function delete($id)
+    {
+        return $this->videoRepository->delete($id);
+    }
 }

@@ -31,6 +31,7 @@
                         <p>{{ $video['description'] }}</p>
                         <p>Channel: <strong>{{ $video['channelTitle'] }}</strong></p>
                         <p><strong>@php echo $video->created_at->diffForHumans(); @endphp</strong></p>
+                        <a href="/video/destroy/{{ $video['id'] }}"><button type="button" class="btn btn-primary">Remove</button></a>
                     </div>
                 </div>
             @endforeach

@@ -65,6 +65,6 @@ abstract class BaseRepository
      */
     public function delete($id)
     {
-        return $this->model->delete($id);
+        return $this->model->destroy($id);
     }
 }
