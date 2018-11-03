@@ -11,54 +11,29 @@ class KafkaService
 {
 
     /**
-     * @var
+     * @param $topic
+     * @param $message
      */
-    protected $adapter;
-
-    /**
-     * KafkaService constructor.
-     */
-    function __construct()
+    public function produce($topic, $message)
     {
-        $this->setup();
-    }
-
-
-    /**
-     *
-     */
-    function setup()
-    {
-        $broker = getenv('KAFKA_BROKER');
-
-        // create consumer
-        $topicConf = new \RdKafka\TopicConf();
-        $topicConf->set('auto.offset.reset', 'largest');
-        $conf = new \RdKafka\Conf();
-        $conf->set('group.id', getenv('KAFKA_GROUP_ID'));
-        $conf->set('metadata.broker.list', $broker);
-        $conf->set('enable.auto.commit', 'false');
-        $conf->set('offset.store.method', 'broker');
-        $conf->set('socket.blocking.max.ms', 50);
-        $conf->setDefaultTopicConf($topicConf);
-        $consumer = new \RdKafka\KafkaConsumer($conf);
-
-        // create producer
-        $conf = new \RdKafka\Conf();
-        $conf->set('socket.blocking.max.ms', 50);
-        $conf->set('queue.buffering.max.ms', 20);
-        $producer = new \RdKafka\Producer($conf);
-        $producer->addBrokers($broker);
-
-        $this->adapter = new \Superbalist\PubSub\Kafka\KafkaPubSubAdapter($producer, $consumer);
+        $rk = new \RdKafka\Producer();
+        $rk->addBrokers(getenv('KAFKA_BROKER'));
+        $topic = $rk->newTopic($topic);
+        $topic->produce(RD_KAFKA_PARTITION_UA, 0, $message);
     }
 
     /**
      * @param $topic
-     * @param $message
+     * @return mixed
      */
-    function publish($topic, $message)
+    public function consume($topic)
     {
-        $this->adapter->publish($topic, $message);
+        $conf = new \RdKafka\Conf();
+        $conf->set('group.id', getenv('KAFKA_GROUP_ID'));
+        $rk = new \RdKafka\Consumer($conf);
+        $rk->addBrokers($this->broker);
+        $topic = $rk->newTopic($topic);
+        $topic->consumeStart(0, RD_KAFKA_OFFSET_STORED);
+        return $topic->consume(0, 1000);
     }
 }
