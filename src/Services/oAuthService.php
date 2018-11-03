@@ -59,6 +59,7 @@ class oAuthService
      */
     function authenticate()
     {
+
         if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
             $this->client->setAccessToken($_SESSION['access_token']);
             return true;
@@ -72,8 +73,17 @@ class oAuthService
      */
     function getUserData()
     {
-        $oAuth = new \Google_Service_Oauth2($this->client);
-        $userData = $oAuth->userinfo_v2_me->get();
+
+        try {
+            $oAuth = new \Google_Service_Oauth2($this->client);
+            $userData = $oAuth->userinfo_v2_me->get();
+        } catch(\Google_Service_Exception $e) {
+            session_destroy();
+            $_SESSION['error_message'] = 'Sorry we can\'t find your user! Please sign in with your Google Account';
+            header('Location: ' . filter_var(getenv('APP_URL'), FILTER_SANITIZE_URL));
+            exit;
+        }
+
         $userDB = $this->userService->getUserByEmail($userData->email);
 
         if (!$userDB) {
