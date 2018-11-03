@@ -33,7 +33,7 @@ class VideoController extends PageController
         $videoModel = new Video();
         $videoRepo = new VideoRepository($videoModel);
         $this->videoService = new VideosService($videoRepo);
-        $this->kafkaService = new KafkaService();
+        //$this->kafkaService = new KafkaService();
     }
 
     /**
@@ -65,7 +65,7 @@ class VideoController extends PageController
                 $videoData['user_id'] = $this->userData['user']->id;
                 try {
                     $this->videoService->create($videoData);
-                    $this->kafkaService->publish('video-saved', json_encode($videoData));
+                    //$this->kafkaService->publish('video-saved', json_encode($videoData));
                 } catch (QueryException $exception) {
                     $errors++;
                 }
@@ -77,10 +77,15 @@ class VideoController extends PageController
             }
             if ($errors) {
                 $_SESSION['error_message'] = $errors . ' video' . ($errors > 1 ? 's' : '') . ' ' . ($errors > 1 ? 'weren\'t' : 'wasn\'t') . ' saved, possibly because you have already!';
+            } else {
+                header('Location: ' . filter_var('/video/downloads', FILTER_SANITIZE_URL));
+                exit;
             }
+        } else {
+            $_SESSION['error_message'] = 'You didn\'t select any video(s) to save!';
         }
-        $_SESSION['error_message'] = 'You didn\'t select any video(s) to save!';
-        header('Location: ' . filter_var($_SERVER['PHP_SELF'], FILTER_SANITIZE_URL));
+
+        header('Location: ' . filter_var($_SERVER['HTTP_REFERER'], FILTER_SANITIZE_URL));
         exit;
     }
 
@@ -90,6 +95,7 @@ class VideoController extends PageController
      */
     function search($query)
     {
+
         if (array_key_exists('query', $_POST)) {
             $query = $_POST['query'];
             unset($_POST['query']);
@@ -97,20 +103,9 @@ class VideoController extends PageController
             exit;
         }
 
-        $data = array();
-        if ($this->userData) {
-            $data = array(
-                "user" => array(
-                    "id" => $this->userData['user']->id,
-                    "name" => $this->userData['oAuth']->name,
-                    "email" => $this->userData['oAuth']->email,
-                )
-            );
-        }
-
         $response = $this->videoService->searchVideos($query);
 
-        $data["videos"] = array();
+        $videos = array();
         foreach ($response->getItems() as $item) {
             $video = array(
                 "channelId" => $item->snippet->channelId,
@@ -119,9 +114,10 @@ class VideoController extends PageController
                 "description" => $item->snippet->description,
                 "videoId" => $item->id->videoId
             );
-            $data["videos"][] = $video;
+            $videos[] = $video;
         }
 
-        return $this->view("video-search", $data);
+        $this->addPageData('videos', $videos);
+        return $this->view("video-search", $this->getPageData());
     }
 }
