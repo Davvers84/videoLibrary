@@ -30,7 +30,7 @@
                         <h2 class="video-title">{{ $video['title'] }}</h2>
                         <p>{{ $video['description'] }}</p>
                         <p>Channel: <strong>{{ $video['channelTitle'] }}</strong></p>
-
+                        <p><strong>@php echo $video->created_at->diffForHumans(); @endphp</strong></p>
                     </div>
                 </div>
             @endforeach
