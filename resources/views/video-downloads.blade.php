@@ -1,11 +1,6 @@
 <h1>My Downloads</h1>
 <hr/>
-@if($successMessage)
-<p>{{ $successMessage }}</p>
-@endif
-@if($errorMessage)
-    <p>{{ $errorMessage }}</p>
-@endif
+@include('includes.alerts')
 
 @if(count($videos) > 0)
 

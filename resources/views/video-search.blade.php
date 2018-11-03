@@ -1,11 +1,6 @@
 <h1>Search for Videos</h1>
 <hr/>
-@if($successMessage)
-    <p>{{ $successMessage }}</p>
-@endif
-@if($errorMessage)
-    <p>{{ $errorMessage }}</p>
-@endif
+@include('includes.alerts')
 
 <form action="/video/save" method="post">
 
