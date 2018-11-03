@@ -25,6 +25,11 @@ class VideoController extends PageController
     protected $kafkaService;
 
     /**
+     * @var
+     */
+    private $sendToKafka = true;
+
+    /**
      * VideoController constructor.
      */
     function __construct()
@@ -33,7 +38,11 @@ class VideoController extends PageController
         $videoModel = new Video();
         $videoRepo = new VideoRepository($videoModel);
         $this->videoService = new VideosService($videoRepo);
-        $this->kafkaService = new KafkaService();
+        $this->sendToKafka = false;
+
+        if ($this->sendToKafka) {
+            $this->kafkaService = new KafkaService();
+        }
     }
 
     /**
@@ -65,7 +74,9 @@ class VideoController extends PageController
                 $videoData['user_id'] = $this->userData['user']->id;
                 try {
                     $this->videoService->create($videoData);
-                    $this->kafkaService->produce('video-saved', json_encode($videoData));
+                    if ($this->sendToKafka) {
+                        $this->kafkaService->produce('video-saved', json_encode($videoData));
+                    }
                 } catch (QueryException $exception) {
                     $errors++;
                 }
