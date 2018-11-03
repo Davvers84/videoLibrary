@@ -130,4 +130,23 @@ class VideoController extends PageController
         $this->addPageData('videos', $videos);
         return $this->view("video-search", $this->getPageData());
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function destroy($id)
+    {
+
+        $response = $this->videoService->delete($id);
+
+        if ($response === null && $response == 1) {
+            $_SESSION['success_message'] = 'The video was removed.';
+        } else {
+            $_SESSION['error_message'] = 'There was an error trying to remove the video!';
+        }
+
+        header('Location: ' . filter_var('/video/downloads/' . $query, FILTER_SANITIZE_URL));
+        exit;
+    }
 }

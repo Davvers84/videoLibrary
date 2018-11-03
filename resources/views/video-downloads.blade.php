@@ -30,6 +30,14 @@
                         <h2 class="video-title">{{ $video['title'] }}</h2>
                         <p>{{ $video['description'] }}</p>
                         <p>Channel: <strong>{{ $video['channelTitle'] }}</strong></p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>@php echo $video->created_at->diffForHumans(); @endphp</strong></p>
+                            </div>
+                            <div class="col-md-6">
+                                 <a href="/video/destroy/{{ $video['id'] }}"><button type="button" class="btn btn-primary float-right">Remove</button></a>
+                            </div>
+                        </div>
 
                     </div>
                 </div>

@@ -77,7 +77,7 @@ class oAuthService
         try {
             $oAuth = new \Google_Service_Oauth2($this->client);
             $userData = $oAuth->userinfo_v2_me->get();
-        } catch(\Google_Service_Exception $e) {
+        } catch (\Google_Service_Exception $e) {
             session_destroy();
             $_SESSION['error_message'] = 'Sorry we can\'t find your user! Please sign in with your Google Account';
             header('Location: ' . filter_var(getenv('APP_URL'), FILTER_SANITIZE_URL));
