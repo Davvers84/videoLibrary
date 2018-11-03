@@ -11,7 +11,7 @@
     @include('includes.nav')
 </nav>
 
-<section>
+<section class="no-masthead">
     <div class="container">
         @yield('content')
     </div>

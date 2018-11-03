@@ -15,7 +15,7 @@
             <ul class="navbar-nav ml-auto">
                 @if(!empty($user['email']))
                     <li class="nav-item">
-                        <a class="nav-link"href="/video/downloads">My Videos</a>
+                        <a class="nav-link"href="/video/downloads">My Vibrary</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/auth/signout">Sign out</a>

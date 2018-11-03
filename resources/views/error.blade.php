@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.error')
 @section('content')
-    @include('includes.alerts')
+
 @stop

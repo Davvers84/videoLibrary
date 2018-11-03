@@ -54,6 +54,11 @@ h6 {
   letter-spacing: 0.1rem;
 }
 
+section.no-masthead {
+  padding-top: calc(7rem + 72px);
+  padding-bottom: 2rem;
+}
+
 header.masthead {
   position: relative;
   overflow: hidden;
@@ -121,6 +126,9 @@ header.masthead .bg-circle-4 {
     padding-top: calc(10rem + 55px);
     padding-bottom: 10rem;
   }
+  section.no-masthead {
+    padding-top: calc(4rem + 55px);
+  }
   header.masthead .masthead-content .masthead-heading {
     font-size: 6rem;
   }
@@ -170,4 +178,16 @@ header.masthead .bg-circle-4 {
 }
 .search-button-label {
   font-size: 2em;
+}
+
+.custom-control-label::before,
+.custom-control-label::after {
+  top: .8rem;
+  width: 1.25rem;
+  height: 1.25rem;
+
+}
+.custom-control-label {
+  padding-top: 9px;
+  padding-left: 5px;
 }
