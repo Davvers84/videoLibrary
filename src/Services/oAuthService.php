@@ -3,13 +3,28 @@ namespace Vibrary\Services;
 
 require ROOTPATH . '/vendor/autoload.php';
 
-class oAuthService {
+/**
+ * Class oAuthService
+ * @package Vibrary\Services
+ */
+class oAuthService
+{
 
+    /**
+     * @var UserService
+     */
     protected $userService;
-
+    /**
+     * @var \Google_Client
+     */
     protected $client;
 
-    function __construct(UserService $userService) {
+    /**
+     * oAuthService constructor.
+     * @param UserService $userService
+     */
+    function __construct(UserService $userService)
+    {
         // @todo replace with true dependancy injection
         $this->userService = $userService;
 
@@ -21,22 +36,30 @@ class oAuthService {
         $this->client->addScope("https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email");
     }
 
-    function callback($response) {
+    /**
+     *
+     */
+    function callback()
+    {
         if (!isset($_GET['code'])) {
             $auth_url = $this->client->createAuthUrl();
             header('Location: ' . filter_var($auth_url, FILTER_SANITIZE_URL));
+            exit;
         } else {
             $this->client->authenticate($_GET['code']);
             $_SESSION['access_token'] = $this->client->getAccessToken();
-
-            $userData = $this->getUserData();
-            $this->userService->createForGoogle($userData->email, $userData->name);
-
+            $this->getUserData(); // And Store in DB
             header('Location: ' . filter_var(getenv('APP_URL'), FILTER_SANITIZE_URL));
+            exit;
         }
     }
 
-    function authenticate() {
+    /**
+     * @return bool
+     */
+    function authenticate()
+    {
+
         if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
             $this->client->setAccessToken($_SESSION['access_token']);
             return true;
@@ -45,12 +68,40 @@ class oAuthService {
         }
     }
 
-    function getUserData() {
-        $oAuth = new \Google_Service_Oauth2($this->client);
-        return $userData = $oAuth->userinfo_v2_me->get();
+    /**
+     * @return array
+     */
+    function getUserData()
+    {
+
+        try {
+            $oAuth = new \Google_Service_Oauth2($this->client);
+            $userData = $oAuth->userinfo_v2_me->get();
+        } catch(\Google_Service_Exception $e) {
+            session_destroy();
+            $_SESSION['error_message'] = 'Sorry we can\'t find your user! Please sign in with your Google Account';
+            header('Location: ' . filter_var(getenv('APP_URL'), FILTER_SANITIZE_URL));
+            exit;
+        }
+
+        $userDB = $this->userService->getUserByEmail($userData->email);
+
+        if (!$userDB) {
+            $this->userService->createForGoogle($userData->email, $userData->name);
+            $userDB = $this->userService->getUserByEmail($userData->email);
+        }
+
+        return array(
+            "oAuth" => $userData,
+            "user" => $userDB
+        );
     }
 
-    function redirect() {
+    /**
+     *
+     */
+    function redirect()
+    {
         if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
             $this->client->setAccessToken($_SESSION['access_token']);
             $auth_url = $this->client->createAuthUrl();
@@ -68,5 +119,4 @@ class oAuthService {
             }
         }
     }
-
 }

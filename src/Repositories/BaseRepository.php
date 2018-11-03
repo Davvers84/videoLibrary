@@ -2,16 +2,19 @@
 
 namespace Vibrary\Repositories;
 
+/**
+ * Class BaseRepository
+ * @package Vibrary\Repositories
+ */
 abstract class BaseRepository
 {
     /**
-     * @var Model
+     * @var
      */
     public $model;
 
     /**
      * BaseRepository constructor.
-     *
      * @param $model
      */
     public function __construct($model)
@@ -21,12 +24,16 @@ abstract class BaseRepository
 
     /**
      * @param $id
+     * @return mixed
      */
     public function findById($id)
     {
         return $this->model->findOrFail($id);
     }
 
+    /**
+     * @return mixed
+     */
     public function all()
     {
         return $this->model->all();
@@ -34,15 +41,17 @@ abstract class BaseRepository
 
     /**
      * @param $request
+     * @return mixed
      */
     public function create($request)
     {
-        return $this->model->create($request->all());
+        return $this->model->create($request);
     }
 
     /**
-     * @param $request
+     * @param array $request
      * @param $id
+     * @return mixed
      */
     public function update(Array $request, $id)
     {
@@ -52,6 +61,7 @@ abstract class BaseRepository
 
     /**
      * @param $id
+     * @return mixed
      */
     public function delete($id)
     {

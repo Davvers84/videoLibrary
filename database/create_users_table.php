@@ -9,7 +9,7 @@
 require __DIR__ . '/../bootstrap.php';
 
 use Illuminate\Database\Capsule\Manager as Capsule;
-if($argv[1] == "migrate") {
+if(!empty($argv[1]) &&  $argv[1] == "migrate") {
     Capsule::schema()->create('users', function ($table) {
         $table->increments('id');
         $table->string('name');
@@ -19,7 +19,9 @@ if($argv[1] == "migrate") {
         $table->timestamps();
     });
     echo 'users table migrated...';
-} else if($argv[1] == "rollback") {
+} else if((!empty($argv[1]) &&  $argv[1] == "rollback")) {
     Capsule::schema()->dropIfExists('users');
     echo 'users table dropped...';
+} else {
+    echo "Please use 'migrate' or 'rollback' command line argument";
 }

@@ -2,14 +2,14 @@
 namespace Vibrary\Controllers;
 
 /**
- * Class HomeController
+ * Class ErrorController
  * @package Vibrary\Controllers
  */
-class HomeController extends PageController
+class ErrorController extends PageController
 {
 
     /**
-     * HomeController constructor.
+     * ErrorController constructor.
      */
     function __construct()
     {
@@ -19,8 +19,8 @@ class HomeController extends PageController
     /**
      * @return array
      */
-    function index()
+    function page()
     {
-        return $this->view("home", $this->getPageData());
+        return $this->view("error", $this->getPageData());
     }
 }

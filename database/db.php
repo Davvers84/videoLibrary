@@ -5,13 +5,17 @@
  * Date: 01/11/18
  * Time: 13:37
  */
-if($argv[1] == "migrate") {
+if(!empty($argv[1]) &&  $argv[1] == "migrate") {
     $option = "migrate";
-} else if($argv[1] == "rollback") {
+} else if(!empty($argv[1]) && $argv[1] == "rollback") {
     $option = "rollback";
+} else {
+    echo "Please use 'migrate' or 'rollback' command line argument";
+    exit;
 }
 $databaseMigrations = array(
     "create_users_table"
+    , "create_videos_table"
 );
 
 foreach($databaseMigrations as $migration) {

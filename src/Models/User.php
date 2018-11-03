@@ -6,12 +6,14 @@ require ROOTPATH . '/bootstrap.php';
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
+/**
+ * Class User
+ * @package Vibrary\Models
+ */
 class User extends Eloquent
 {
 
     /**
-     * The attributes that are mass assignable.
-     *
      * @var array
      */
     protected $fillable = [
@@ -19,18 +21,17 @@ class User extends Eloquent
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
-     *
      * @var array
      */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-//    public function videos()
-//    {
-//        return $this->hasMany('Videos');
-//    }
-
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function videos()
+    {
+        return $this->hasMany(Video::class);
+    }
 }
