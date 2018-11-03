@@ -38,7 +38,6 @@ class VideoController extends PageController
         $videoModel = new Video();
         $videoRepo = new VideoRepository($videoModel);
         $this->videoService = new VideosService($videoRepo);
-        $this->sendToKafka = false;
 
         if ($this->sendToKafka) {
             $this->kafkaService = new KafkaService();
