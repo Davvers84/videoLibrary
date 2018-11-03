@@ -4,6 +4,7 @@ namespace Vibrary\Controllers;
 use Illuminate\Database\QueryException;
 use Vibrary\Models\Video;
 use Vibrary\Repositories\Video\VideoRepository;
+use Vibrary\Services\KafkaService;
 use Vibrary\Services\VideosService;
 
 /**
@@ -19,6 +20,11 @@ class VideoController extends PageController
     protected $videoService;
 
     /**
+     * @var KafkaService
+     */
+    protected $kafkaService;
+
+    /**
      * VideoController constructor.
      */
     function __construct()
@@ -27,6 +33,7 @@ class VideoController extends PageController
         $videoModel = new Video();
         $videoRepo = new VideoRepository($videoModel);
         $this->videoService = new VideosService($videoRepo);
+        $this->kafkaService = new KafkaService();
     }
 
     /**
@@ -58,6 +65,7 @@ class VideoController extends PageController
                 $videoData['user_id'] = $this->userData['user']->id;
                 try {
                     $this->videoService->create($videoData);
+                    $this->kafkaService->publish('video-saved', json_encode($videoData));
                 } catch (QueryException $exception) {
                     $errors++;
                 }
